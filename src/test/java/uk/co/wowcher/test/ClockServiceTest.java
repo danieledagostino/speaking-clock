@@ -3,10 +3,13 @@ package uk.co.wowcher.test;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import uk.co.wowcher.utility.ClockService;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ClockServiceTest {
 
 	private ClockService service;
@@ -77,5 +80,31 @@ public class ClockServiceTest {
 		String result = service.convertToWords(time);
 
 		assertEquals("It's nineteen thirty", result);
+	}
+	
+	@Test
+	public void H_test() {
+		String time = "778:87";
+
+		String result = service.convertToWords(time);
+
+		assertEquals("Given time is not valid!", result);
+	}
+	
+	@Test
+	public void I_testEmpty() {
+		String time = "";
+
+		String result = service.convertToWords(time);
+
+		assertEquals("Given time is not valid!", result);
+	}
+	
+	@Test
+	public void L_testNull() {
+
+		String result = service.convertToWords(null);
+
+		assertEquals("Given time is not valid!", result);
 	}
 }

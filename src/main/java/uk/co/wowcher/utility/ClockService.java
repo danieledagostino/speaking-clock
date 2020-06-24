@@ -38,16 +38,17 @@ public class ClockService {
 	public String convertToWords(String time) {
 		String resultString = "";
 
-		if (timeValidation(time)) {
+		if (time != null && timeValidation(time)) {
 			String[] hoursAndMinutes = timeGrouping(time);
-			
+
 			if (hoursAndMinutes.length == 4) {
-				
-					resultString = "It's "+checkHours(hoursAndMinutes[0], hoursAndMinutes[1]) + " " +
-						checkOther(hoursAndMinutes[2], hoursAndMinutes[3]);
+
+				resultString = "It's " + checkHours(hoursAndMinutes[0], hoursAndMinutes[1]) + " "
+						+ checkOther(hoursAndMinutes[2], hoursAndMinutes[3]);
+
 			}
 		} else {
-			System.out.println(time+" is not a valid time!");
+			System.out.println(time + " is not a valid time!");
 			resultString = "Given time is not valid!";
 		}
 
@@ -85,7 +86,7 @@ public class ClockService {
 			oneToNine.put(key, value);
 		}
 	}
-	
+
 	public boolean timeValidation(String time) {
 		Pattern pattern = Pattern.compile(expValidation);
 		Matcher matcher = pattern.matcher(time);
@@ -95,7 +96,7 @@ public class ClockService {
 			return false;
 		}
 	}
-		
+
 	public String[] timeGrouping(String time) {
 		Pattern pattern = Pattern.compile(expGroup);
 		Matcher matcher = pattern.matcher(time);
@@ -105,13 +106,13 @@ public class ClockService {
 				tokens.add(matcher.group(i));
 			}
 		}
-		
+
 		return tokens.toArray(new String[tokens.size()]);
 	}
-	
+
 	private String checkHours(String timeLeft, String timeRight) {
 		String sTime = timeLeft + timeRight;
-		
+
 		if ("00".equals(sTime)) {
 			return MIDNIGHT;
 		} else if ("12".equals(sTime)) {
@@ -120,25 +121,24 @@ public class ClockService {
 			return checkOther(timeLeft, timeRight);
 		}
 	}
-	
+
 	private String checkOther(String timeLeft, String timeRight) {
 		String sTime = timeLeft + timeRight;
 		int intTime = Integer.valueOf(sTime).intValue();
-		
+
 		if (intTime < 10) {
 			return oneToNine.get(sTime);
 		} else if (intTime > 9 && intTime < 20) {
 			return tenToNineteen.get(sTime);
 		} else {
-			return dozens.get(timeLeft+"0") + 
-					" " + oneToNine.get(timeRight);
+			return dozens.get(timeLeft + "0") + " " + oneToNine.get(timeRight);
 		}
 	}
-	
+
 	private Properties getPropertiesFor(String fileName) throws IOException {
 		Properties properties = new Properties();
 		properties.load(getClass().getClassLoader().getResourceAsStream(fileName));
-		
+
 		return properties;
 	}
 }
